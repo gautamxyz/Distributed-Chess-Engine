@@ -19,7 +19,7 @@ def main(args):
             print("To Move:", "White" if board.turn else "Black")
             print("Current Board:")
             if args.prettyprint:
-                print(board.unicode(invert_color=args.invert))
+                print(board.unicode(invert_color=args.invert,empty_square="."))
             else:
                 print(board)
         if board.turn:
@@ -34,7 +34,7 @@ def main(args):
             # AI makes move.
             if rank == 0:
                 start_time = time.time()
-            move = make_parallel_move(board, args.depth, args.method)
+            move = make_parallel_move(board, args.depth)
             if rank == 0:
                 end_time = time.time()
                 print(f"Time taken to make move: {end_time - start_time:.6f} seconds.", file=sys.stderr)
@@ -66,15 +66,10 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--seed", type=int, default=-1)
     parser.add_argument("--prettyprint", action="store_true")
     parser.add_argument("--invert", action="store_true")
     parser.add_argument("--simulate", action="store_true")
-    parser.add_argument("--method", type=str, default="minimax")
     parser.add_argument("--depth", type=int, default=3)
     args = parser.parse_args()
-
-    if args.seed != -1:
-        random.seed(args.seed)
 
     main(args)

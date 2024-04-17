@@ -88,7 +88,7 @@ def make_random_move(board: chess.Board):
     random_move = random.choice(legal_moves)
     return random_move
 
-def make_parallel_move(board: chess.Board, depth: int=3, method: str="minimax"):
+def make_parallel_move(board: chess.Board, depth: int=3):
     # get MPI info
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -111,29 +111,31 @@ def make_parallel_move(board: chess.Board, depth: int=3, method: str="minimax"):
     my_scores = []
 
     for child_board in my_boards:
-        if method == "minimax":
-            score, move = minimax(child_board, depth)
-        else:
-            raise NotImplementedError
+        score, move = minimax(child_board, depth)
         my_moves.append(move)
         my_scores.append(score)
 
-    moves_list = gather_moves_from_processes(my_moves, len(boards_list))
     scores_list = gather_scores_from_processes(my_scores, len(boards_list))
 
     # finally which move should i make?  i am board.turn. i am looking at the
     # scores of all the states one level down. if i am white, i should maximize.
     # if i am black i should minimze.
     if rank == 0:
-        best_score = -inf if board.turn else +inf
+        if board.turn:
+            best_score = -inf
+        else:
+            best_score = +inf
+
         best_move = None
 
         for move, score in zip(legal_moves, scores_list):
             if board.turn:
+                # maximizing player
                 if score > best_score:
                     best_score = score
                     best_move = move
             else:
+                # minimizing player
                 if score < best_score:
                     best_score = score
                     best_move = move
@@ -144,7 +146,7 @@ def make_parallel_move(board: chess.Board, depth: int=3, method: str="minimax"):
     
 
 def make_human_move(board: chess.Board):
-    human_move_str = input("What move do you want to make? ")
+    human_move_str = input("Make your move: ")
     while chess.Move.from_uci(human_move_str) not in board.legal_moves:
-        human_move_str = input("Illegal Move! What move do you want to make? ")
+        human_move_str = input("Illegal Move! Make another move: ")
     return chess.Move.from_uci(human_move_str)
