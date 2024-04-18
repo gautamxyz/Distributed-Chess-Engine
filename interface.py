@@ -3,44 +3,32 @@ import numpy as np
 import random
 from mpi4py import MPI
 
-def board_to_numpy(board: chess.Board):
-    piece_map = board.piece_map()
-    board_array = np.zeros((8, 8), dtype=np.int32)
+def transform_board_to_np(chess_board: chess.Board):
+    mapped_pieces = chess_board.piece_map()
+    np_board = np.zeros((64,), dtype=np.int32)
 
-    for square, piece in piece_map.items():
-        board_array[square // 8, square % 8] = ord(piece.symbol())
+    for position, piece in mapped_pieces.items():
+        np_board[position] = ord(piece.symbol())
     
-    return board_array * (1 if board.turn else -1)
+    return np_board.reshape((8, 8)) * (1 if chess_board.turn else -1)
 
-def numpy_to_board(board_array: np.ndarray):
-    turn = board_array.sum() > 0
-    if not turn:
-        board_array *= -1
+def transform_np_to_board(np_board: np.ndarray):
+    is_turn = np_board.sum() > 0
+    if not is_turn:
+        np_board *= -1
 
-    piece_map = {}
-    for i in range(8):
-        for j in range(8):
-            if board_array[i, j] != 0:
-                piece_map[i * 8 + j] = chess.Piece.from_symbol(chr(board_array[i, j]))
+    np_board = np_board.flatten()
+    mapped_pieces = {idx: chess.Piece.from_symbol(chr(val)) for idx, val in enumerate(np_board) if val != 0}
     
-    board = chess.Board()
-    board.set_piece_map(piece_map)
-    board.turn = turn
+    chess_board = chess.Board()
+    chess_board.set_piece_map(mapped_pieces)
+    chess_board.turn = is_turn
 
-    return board
+    return chess_board
 
 def scatter_boards_among_processes(board_list: list):
-    """
-    Distribute a list of boards among processes.
-    To be used as shown below:
-
-    if rank == 0:
-        boards_list = [...]
-    else:
-        boards_list = None
-
-    my_boards = distribute_among_processes(boards_list)
-    """
+    # Distribute a list of boards among processes.
+   
     # get MPI info
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -48,11 +36,13 @@ def scatter_boards_among_processes(board_list: list):
 
     # calculate division
     if rank == 0:
-        boards = np.ascontiguousarray([board_to_numpy(board) for board in board_list])
+        boards = np.ascontiguousarray([transform_board_to_np(board) for board in board_list])
         split = np.array_split(boards, size, axis=0)
 
         chunk_sizes = np.array([len(s) for s in split]) * 64
-        chunk_disps = np.insert(np.cumsum(chunk_sizes), 0, 0)[0:-1]
+        chunk_disps = np.cumsum(chunk_sizes)
+        chunk_disps = np.roll(chunk_disps, 1)
+        chunk_disps[0] = 0
     else:
         boards = None
         chunk_sizes, chunk_disps = None, None
@@ -65,23 +55,15 @@ def scatter_boards_among_processes(board_list: list):
     my_boards = np.zeros(chunk_sizes[rank], dtype=np.int32).reshape(-1, 8, 8)
     comm.Scatterv([boards, chunk_sizes, chunk_disps, MPI.INT32_T], my_boards, root=0)
 
-    my_boards = [numpy_to_board(board) for board in my_boards]
-    return my_boards
+    temp_boards = []
+    for board in my_boards:
+        temp_boards.append(transform_np_to_board(board))
+
+    return temp_boards
 
 def gather_scores_from_processes(my_scores_list: list, total_num: int):
-    """
-    Gather a list of scores among processes.
-    To be used as shown below:
-
-    if rank == 0:
-        boards_list = [...] # full board list
-        scores_list = [...]
-    else:
-        boards_list = []
-        scores_list = None
-
-    scores_list = gather_scores_from_processes(scores_list, len(board_list))
-    """
+    # Gather a list of scores among processes.   
+   
     # get MPI info
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -92,7 +74,9 @@ def gather_scores_from_processes(my_scores_list: list, total_num: int):
         split = np.array_split(scores, size, axis=0)
 
         chunk_sizes = np.array([len(s) for s in split]) * 1
-        chunk_disps = np.insert(np.cumsum(chunk_sizes), 0, 0)[0:-1]
+        chunk_disps = np.cumsum(chunk_sizes)
+        chunk_disps = np.roll(chunk_disps, 1)
+        chunk_disps[0] = 0
     else:
         scores = np.array([], dtype=np.int32)
         chunk_sizes, chunk_disps = None, None

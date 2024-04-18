@@ -1,6 +1,5 @@
 import chess
 
-# TBD
 PIECES_WEIGHTS = {
     chess.PAWN: 10,
     chess.BISHOP: 30,

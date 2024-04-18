@@ -6,23 +6,25 @@ from typing import List
 
 from config import *
 from interface import *
+from evaluate import *
 
 def get_score(board: chess.Board, player: bool):
     if board.is_stalemate():# or board.is_fivefold_repetition or board.is_insufficient_material() or board.is_seventyfive_moves():
         return RESULT_WEIGHTS["TIE"]
-    elif board.is_checkmate() and board.turn == (not player):
-        return RESULT_WEIGHTS["WIN"]
-    elif board.is_checkmate() and board.turn == player:
-        return RESULT_WEIGHTS["LOSS"]
+    elif board.is_checkmate():
+        if board.turn == player:
+            return RESULT_WEIGHTS["LOSS"]
+        else:
+            return RESULT_WEIGHTS["WIN"]
     else:
-        total = random.randint(0, 10)
-        for piece, weight in PIECES_WEIGHTS.items():
-            pos_cnt = str(board.pieces(piece, player)).count('1')
-            neg_cnt = str(board.pieces(piece, not player)).count('1')
+        score = random.randint(0,10)
+        for piece_type, piece_weight in PIECES_WEIGHTS.items():
+            pos_cnt = str(board.pieces(piece_type, player)).count('1')
+            neg_cnt = str(board.pieces(piece_type, not player)).count('1')
 
-            total += (pos_cnt - neg_cnt) * weight
+            score += (pos_cnt - neg_cnt) * piece_weight
 
-        return total
+        return score
 
 def sorted_moves(board: chess.Board) -> List[str]:
     NAME_TO_SQUARE = dict(zip(chess.SQUARE_NAMES, chess.SQUARES))
@@ -32,9 +34,16 @@ def sorted_moves(board: chess.Board) -> List[str]:
 
     moves = list(board.legal_moves)
 
-    squares = [NAME_TO_SQUARE[name] for name in map(square_name, moves)]
-    pieces = [board.piece_type_at(square) for square in squares]
+    squares = []
+    for move in moves:
+        name = square_name(move)
+        square = NAME_TO_SQUARE[name]
+        squares.append(square)
 
+    pieces = []
+    for square in squares:
+        piece = board.piece_type_at(square)
+        pieces.append(piece)
     moves = sorted(zip(moves, pieces), key=lambda x: x[1], reverse=True)
 
     return moves
@@ -42,7 +51,7 @@ def sorted_moves(board: chess.Board) -> List[str]:
 def minimax(board: chess.Board, depth: int=3, alpha: float=-inf, beta: float=+inf):
     player = board.turn
     if depth == 0 or board.is_game_over():
-        return get_score(board, player), None
+        return evaluate_board(board), None
     
     if player:
         # maximizing player
