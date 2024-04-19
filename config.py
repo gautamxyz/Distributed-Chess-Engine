@@ -2,11 +2,11 @@ import chess
 
 PIECES_WEIGHTS = {
     chess.PAWN: 10,
-    chess.BISHOP: 30,
-    chess.KING: 0,
-    chess.KNIGHT: 30,
     chess.ROOK: 50,
+    chess.KNIGHT: 32,
+    chess.BISHOP: 33,
     chess.QUEEN: 90,
+    chess.KING: 2000
 }
 
 RESULT_WEIGHTS = {
@@ -15,4 +15,3 @@ RESULT_WEIGHTS = {
     "TIE": 0,
 }
 
-STOCKFISH_PATH = "/usr/bin/stockfish"

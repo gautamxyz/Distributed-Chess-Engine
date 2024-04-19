@@ -1,18 +1,5 @@
 import chess
-
-# this module implement's Tomasz Michniewski's Simplified Evaluation Function
-# https://www.chessprogramming.org/Simplified_Evaluation_Function
-# note that the board layouts have been flipped and the top left square is A1
-
-# fmt: off
-piece_value = {
-    chess.PAWN: 10,
-    chess.ROOK: 50,
-    chess.KNIGHT: 32,
-    chess.BISHOP: 33,
-    chess.QUEEN: 90,
-    chess.KING: 2000
-}
+from config import PIECES_WEIGHTS
 
 pawnEvalWhite = [
     0,  0,  0,  0,  0,  0,  0,  0,
@@ -95,53 +82,6 @@ kingEvalEndGameWhite = [
     -50, -40, -30, -20, -20, -30, -40, -50
 ]
 kingEvalEndGameBlack = list(reversed(kingEvalEndGameWhite))
-# fmt: on
-
-
-def move_value(board: chess.Board, move: chess.Move, endgame: bool) -> float:
-    """
-    How good is a move?
-    A promotion is great.
-    A weaker piece taking a stronger piece is good.
-    A stronger piece taking a weaker piece is bad.
-    Also consider the position change via piece-square table.
-    """
-    if move.promotion is not None:
-        return -float("inf") if board.turn == chess.BLACK else float("inf")
-
-    _piece = board.piece_at(move.from_square)
-    if _piece:
-        _from_value = evaluate_piece(_piece, move.from_square, endgame)
-        _to_value = evaluate_piece(_piece, move.to_square, endgame)
-        position_change = _to_value - _from_value
-    else:
-        raise Exception(f"A piece was expected at {move.from_square}")
-
-    capture_value = 0.0
-    if board.is_capture(move):
-        capture_value = evaluate_capture(board, move)
-
-    current_move_value = capture_value + position_change
-    if board.turn == chess.BLACK:
-        current_move_value = -current_move_value
-
-    return current_move_value
-
-
-def evaluate_capture(board: chess.Board, move: chess.Move) -> float:
-    """
-    Given a capturing move, weight the trade being made.
-    """
-    if board.is_en_passant(move):
-        return piece_value[chess.PAWN]
-    _to = board.piece_at(move.to_square)
-    _from = board.piece_at(move.from_square)
-    if _to is None or _from is None:
-        raise Exception(
-            f"Pieces were expected at _both_ {move.to_square} and {move.from_square}"
-        )
-    return piece_value[_to.piece_type] - piece_value[_from.piece_type]
-
 
 def evaluate_piece(piece: chess.Piece, square: chess.Square, end_game: bool) -> int:
     piece_type = piece.piece_type
@@ -186,7 +126,7 @@ def evaluate_board(board: chess.Board) -> float:
         if not piece:
             continue
 
-        value = piece_value[piece.piece_type] + evaluate_piece(piece, square, end_game)
+        value = PIECES_WEIGHTS[piece.piece_type] + evaluate_piece(piece, square, end_game)
         total += value if piece.color == chess.WHITE else -value
 
     return total
@@ -195,7 +135,7 @@ def evaluate_board(board: chess.Board) -> float:
 def check_end_game(board: chess.Board) -> bool:
     """
     Are we in the end game?
-    Per Michniewski:
+    - Important for king evaluation since it uses different piece-square tables in the end game.
     - Both sides have no queens or
     - Every side which has a queen has additionally no other pieces or one minorpiece maximum.
     """
