@@ -1,0 +1,72 @@
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+    import chess
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+KeyboardInterrupt
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+KeyboardInterrupt
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 215, in square_rank
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+    def square_rank(square: Square) -> int:
+KeyboardInterrupt
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 452, in <module>
+    BB_RANK_MASKS, BB_RANK_ATTACKS = _attack_table([-1, 1])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt

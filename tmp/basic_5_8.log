@@ -1,0 +1,96 @@
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 451, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 451, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    BB_FILE_MASKS, BB_FILE_ATTACKS = _attack_table([-8, 8])
+    BB_FILE_MASKS, BB_FILE_ATTACKS = _attack_table([-8, 8])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 441, in _attack_table
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    mask = _sliding_attacks(square, 0, deltas) & ~_edges(square)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 423, in _edges
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    ((BB_FILE_A | BB_FILE_H) & ~BB_FILES[square_file(square)]))
+KeyboardInterrupt
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+KeyboardInterrupt
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 215, in square_rank
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    def square_rank(square: Square) -> int:
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+KeyboardInterrupt
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 223, in square_distance
+    return max(abs(square_file(a) - square_file(b)), abs(square_rank(a) - square_rank(b)))
+KeyboardInterrupt
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 450, in <module>
+    BB_DIAG_MASKS, BB_DIAG_ATTACKS = _attack_table([-9, -7, 7, 9])
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 443, in _attack_table
+    attacks[subset] = _sliding_attacks(square, subset, deltas)
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 403, in _sliding_attacks
+    if not (0 <= sq < 64) or square_distance(sq, sq - delta) > 2:
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 219, in square_distance
+    def square_distance(a: Square, b: Square) -> int:
+KeyboardInterrupt

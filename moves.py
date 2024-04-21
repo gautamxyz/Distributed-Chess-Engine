@@ -26,41 +26,45 @@ def get_score(board: chess.Board, player: bool):
 
         return score
 
-def sorted_moves(board: chess.Board) -> List[str]:
-    NAME_TO_SQUARE = dict(zip(chess.SQUARE_NAMES, chess.SQUARES))
+def sorted_moves(board: chess.Board) -> List[chess.Move]:
+    """
+    Get legal moves.
+    Attempt to sort moves by best to worst.
+    Use piece values (and positional gains/losses) to weight captures.
+    """
+    end_game = check_end_game(board)
 
-    def square_name(move):
-        return move.uci()[:2]
+    def orderer(move):
+        return move_value(board, move, end_game)
 
-    moves = list(board.legal_moves)
+    in_order = sorted(
+        board.legal_moves, key=orderer, reverse=(board.turn == chess.WHITE)
+    )
+    return in_order
 
-    squares = []
-    for move in moves:
-        name = square_name(move)
-        square = NAME_TO_SQUARE[name]
-        squares.append(square)
-
-    pieces = []
-    for square in squares:
-        piece = board.piece_type_at(square)
-        pieces.append(piece)
-    moves = sorted(zip(moves, pieces), key=lambda x: x[1], reverse=True)
-
-    return moves
-
-def minimax(board: chess.Board, depth: int=3, alpha: float=-inf, beta: float=+inf):
+def minimax(board: chess.Board, depth: int=3,method:str="basic", alpha: float=-inf, beta: float=+inf):
     player = board.turn
+    if board.is_stalemate():# or board.is_fivefold_repetition or board.is_insufficient_material() or board.is_seventyfive_moves():
+        return RESULT_WEIGHTS["TIE"],None
+    elif board.is_checkmate():
+        if board.turn == player:
+            return RESULT_WEIGHTS["LOSS"],None
+        else:
+            return RESULT_WEIGHTS["WIN"],None
+
     if depth == 0 or board.is_game_over():
+        if method == "basic":
+            return get_score(board, player), None
         return evaluate_board(board), None
     
     if player:
         # maximizing player
         max_score, best_move = -inf, None
         legal_moves = sorted_moves(board)
-        for move, _ in legal_moves:
+        for move in legal_moves:
             new_board = board.copy()
             new_board.push(move)
-            score, _ = minimax(new_board, depth - 1, alpha, beta)
+            score, _ = minimax(new_board, depth - 1, method,alpha, beta)
 
             alpha = max(alpha, score)
             if beta <= alpha:
@@ -76,10 +80,10 @@ def minimax(board: chess.Board, depth: int=3, alpha: float=-inf, beta: float=+in
         # minimizing player
         min_score, best_move = +inf, None
         legal_moves = sorted_moves(board)
-        for move, _ in legal_moves:
+        for move in legal_moves:
             new_board = board.copy()
             new_board.push(move)
-            score, _ = minimax(new_board, depth - 1, alpha, beta)
+            score, _ = minimax(new_board, depth - 1,method, alpha, beta)
 
             beta = min(beta, score)
             if beta <= alpha:
@@ -97,7 +101,7 @@ def make_random_move(board: chess.Board):
     random_move = random.choice(legal_moves)
     return random_move
 
-def make_parallel_move(board: chess.Board, depth: int=3):
+def make_parallel_move(board: chess.Board, depth: int=3, method: str="basic"):
     # get MPI info
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
@@ -120,7 +124,7 @@ def make_parallel_move(board: chess.Board, depth: int=3):
     my_scores = []
 
     for child_board in my_boards:
-        score, move = minimax(child_board, depth)
+        score, move = minimax(child_board, depth,method)
         my_moves.append(move)
         my_scores.append(score)
 

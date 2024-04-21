@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+Traceback (most recent call last):
+  File "/home/dell/Desktop/4-2/ds/distributed_chess_engine_project/main.py", line 1, in <module>
+    import chess
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 471, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 471, in <module>
+    import chess
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 471, in <module>
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 471, in <module>
+    BB_RAYS = _rays()
+    BB_RAYS = _rays()
+    BB_RAYS = _rays()
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 467, in _rays
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 467, in _rays
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 462, in _rays
+    BB_RAYS = _rays()
+  File "/home/dell/.local/lib/python3.10/site-packages/chess/__init__.py", line 461, in _rays
+    rays_row.append(BB_EMPTY)
+KeyboardInterrupt
+    rays_row.append(BB_EMPTY)
+KeyboardInterrupt
+    elif BB_RANK_ATTACKS[a][0] & bb_b:
+KeyboardInterrupt
+    rays_row.append((BB_DIAG_ATTACKS[a][0] & BB_DIAG_ATTACKS[b][0]) | bb_a | bb_b)
+KeyboardInterrupt

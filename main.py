@@ -12,6 +12,7 @@ arg_parser.add_argument("--prettyprint", action="store_true")
 arg_parser.add_argument("--invert", action="store_true")
 arg_parser.add_argument("--simulate", action="store_true")
 arg_parser.add_argument("--depth", type=int, default=3)
+arg_parser.add_argument("--method", type=str, default="basic", choices=["basic", "advanced"])
 arguments = arg_parser.parse_args()
 
 comm_channel = MPI.COMM_WORLD
@@ -40,7 +41,7 @@ while not chess_board.is_game_over():
         # AI makes move.
         if process_rank == 0:
             start_time = time.time()
-        selected_move = make_parallel_move(chess_board, arguments.depth)
+        selected_move = make_parallel_move(chess_board, arguments.depth,arguments.method)
         if process_rank == 0:
             end_time = time.time()
             print(f"Time taken to make move: {end_time - start_time:.6f} seconds.", file=sys.stderr)

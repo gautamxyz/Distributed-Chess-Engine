@@ -83,6 +83,50 @@ kingEvalEndGameWhite = [
 ]
 kingEvalEndGameBlack = list(reversed(kingEvalEndGameWhite))
 
+def move_value(board: chess.Board, move: chess.Move, endgame: bool) -> float:
+    """
+    How good is a move?
+    A promotion is great.
+    A weaker piece taking a stronger piece is good.
+    A stronger piece taking a weaker piece is bad.
+    Also consider the position change via piece-square table.
+    """
+    if move.promotion is not None:
+        return -float("inf") if board.turn == chess.BLACK else float("inf")
+
+    _piece = board.piece_at(move.from_square)
+    if _piece:
+        _from_value = evaluate_piece(_piece, move.from_square, endgame)
+        _to_value = evaluate_piece(_piece, move.to_square, endgame)
+        position_change = _to_value - _from_value
+    else:
+        raise Exception(f"A piece was expected at {move.from_square}")
+
+    capture_value = 0.0
+    if board.is_capture(move):
+        capture_value = evaluate_capture(board, move)
+
+    current_move_value = capture_value + position_change
+    if board.turn == chess.BLACK:
+        current_move_value = -current_move_value
+
+    return current_move_value
+
+
+def evaluate_capture(board: chess.Board, move: chess.Move) -> float:
+    """
+    Given a capturing move, weight the trade being made.
+    """
+    if board.is_en_passant(move):
+        return PIECES_WEIGHTS[chess.PAWN]
+    _to = board.piece_at(move.to_square)
+    _from = board.piece_at(move.from_square)
+    if _to is None or _from is None:
+        raise Exception(
+            f"Pieces were expected at _both_ {move.to_square} and {move.from_square}"
+        )
+    return PIECES_WEIGHTS[_to.piece_type] - PIECES_WEIGHTS[_from.piece_type]
+
 def evaluate_piece(piece: chess.Piece, square: chess.Square, end_game: bool) -> int:
     piece_type = piece.piece_type
     mapping = []
@@ -108,6 +152,7 @@ def evaluate_piece(piece: chess.Piece, square: chess.Square, end_game: bool) -> 
             mapping = kingEvalWhite if piece.color == chess.WHITE else kingEvalBlack
 
     return mapping[square]
+
 
 
 def evaluate_board(board: chess.Board) -> float:
